@@ -1,0 +1,28 @@
+{
+  "author": "chusihao",
+  "git": "https://github.com/csh1314/offerclub.git",
+  "name": "@byteinspire-template/koa",
+  "version": "0.0.7",
+  "scripts": {
+    "dev": "inspirecloud dev",
+    "deploy": "inspirecloud deploy"
+  },
+  "files": [
+    "*",
+    "!.*",
+    ".gitignore"
+  ],
+  "dependencies": {
+    "@byteinspire/inspirecloud-api": "*",
+    "@koa/router": "^8.0.2",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-static": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {},
+  "license": "ISC"
+}
