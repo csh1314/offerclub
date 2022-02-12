@@ -2,6 +2,31 @@
 
 基于Restful风格开发的一组API
 
+### 文件目录：
+
+```
+|-- src
+    |-- app    	//导出的app
+    |-- utils  	//封装的工具函数
+    |-- common 	//公共的一些中间件
+        |-- middleware
+    |-- web   	//web端的接口
+        |-- controllers
+        |-- middleware
+        |-- models
+        |-- routers
+        |-- services
+    |-- admin 	//admin端的接口
+        |-- ...
+|-- index.js  	//入口文件
+|-- inspirecloud.json // 轻服务默认的配置文件
+|-- package.json
+|-- .gitignore
+|-- README.md
+```
+
+
+
 ### 接口规范:
 
 （1） 返回数据说明
@@ -10,7 +35,7 @@
 {
 	code: 200 | 201  //200表示成功, 201表示用户名不存在/密码错误
 	message: String  //返回信息说明
-	...
+	data: Object     //返回数据
 }
 ```
 
