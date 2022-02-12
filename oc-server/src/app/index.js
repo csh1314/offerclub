@@ -2,8 +2,8 @@ const koaBody = require('koa-body');
 const Koa = require('koa');
 const app = new Koa();
 
-const useRoutes = reuire('../routers')
-app.useRoutes = useRoutes
+const useWebRoutes = require('../web/routers')
+app.useWebRoutes = useWebRoutes
 
 // 为应用使用中间件
 // 请求体 parse 中间件，用于 parse json 格式请求体
@@ -32,6 +32,6 @@ app.use(async function errorHandler(ctx, next) {
 });
 
 // 注册所有路由
-app.useRoutes()
+app.useWebRoutes()
 
 module.exports = app;

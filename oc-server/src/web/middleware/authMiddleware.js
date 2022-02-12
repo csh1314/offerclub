@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { PUBLIC_KEY } = require('../app/config')
+const { PUBLIC_KEY } = require('../../app/config')
 const userService = require('../services/userService')
 
 const verifyAuth = async (ctx, next) => {
