@@ -35,6 +35,19 @@ class UserController {
       }
     }
   }
+  
+  async patch(ctx) {
+    const { newPassword } = ctx.request.body
+    await userService.patch({
+      ...ctx.userInfo,
+      newPassword: md5Pwd(newPassword)
+    })
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {}
+    }
+  }
 }
 
 module.exports = new UserController()

@@ -15,6 +15,17 @@ class UserService {
   }
 
   /**
+   * @description 修改密码
+   * @param {object}  
+   * @return {object}
+   */
+  async patch({username, password, newPassword}) {
+    const user = await userTable.where({username, password}).findOne()
+    user.password = newPassword
+    return await userTable.save(user)
+  }
+
+  /**
    * @description 通过用户名查询用户
    * @param {string} username 
    * @return {object} 
