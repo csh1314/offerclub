@@ -8,12 +8,15 @@ class AuthController {
     const { username, password } = ctx.request.body
     let user = await userService.getUserByUsername(username)
     if(!user){
-      ctx.body = {
-        code: 201,
-        message: "invalid username",
-        data: {}
+      user = await userService.getUserByPhone(username)
+      if(!user) {
+        ctx.body = {
+          code: 201,
+          message: "invalid username",
+          data: {}
+        }
+        return
       }
-      return
     }
     if(md5Pwd(password) !== user.password) {
       ctx.body = {
