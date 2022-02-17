@@ -23,6 +23,27 @@ class FileController {
       }
     }
   }
+
+  async multi(ctx) {
+    const fileList = ctx.request.files.file
+    const urlList = []
+    for(const file of fileList) {
+      const buffer = await handleReadFile(file.path)
+      const { url } = await inspirecloud.file.upload(
+        file.name,
+        buffer,
+        { type: file.type }
+      )
+      urlList.push(url)
+    }
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        urlList
+      }
+    }
+  }
 }
 
 module.exports = new FileController()
