@@ -55,6 +55,17 @@ class UserService {
     return await userTable.where({_id: ObjectId(id)}).findOne()
   }
 
+  /**
+   * @description 上传头像
+   * @param {object} 
+   * @return {object}
+   */
+  async uploadAvatar({id, url}) {
+    let user = await userTable.where({_id: id}).findOne()
+    user = Object.assign(user, {avatarUrl: url})
+    return await userTable.save(user)
+  }
+
 }
 
 module.exports = new UserService()
