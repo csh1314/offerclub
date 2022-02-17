@@ -7,9 +7,14 @@ const router = new Router({
 const authController = require('../controllers/authController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-// 登录
-router.post('/login', authController.login)
+// 用户密码登录
+router.post('/commonLogin', authController.commonLogin)
+// 验证码登录
+router.post('/verifyLogin', authController.verifyLogin)
 // 认证
 router.get('/authorization', authMiddleware.verifyAuth, authController.success)
+
+router.post('/send', authController.send)
+
 
 module.exports = router

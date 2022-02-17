@@ -7,7 +7,7 @@ class UserService {
   
   /**
    * @description 新增用户
-   * @param {object} user 
+   * @param {object} 
    * @return {object}
    */
   async create(user) {
@@ -66,6 +66,14 @@ class UserService {
     return await userTable.save(user)
   }
 
+  /**
+   * @description 手机号获取用户
+   * @param {string} phoneNumber
+   * @return {object} 
+   */
+  async getUserByPhone(phoneNumber) {
+    return await userTable.where({phoneNumber}).findOne()
+  }
 }
 
 module.exports = new UserService()
