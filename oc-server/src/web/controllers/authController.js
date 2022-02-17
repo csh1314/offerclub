@@ -41,6 +41,17 @@ class AuthController {
       }
     }
   }
+
+  async success(ctx) {
+    const { userInfo } = ctx
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        userInfo
+      }
+    }
+  }
 }
 
 module.exports = new AuthController()
