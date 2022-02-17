@@ -11,14 +11,16 @@ class AuthController {
     if(!user){
       ctx.body = {
         code: 201,
-        message: "用户名不存在"
+        message: "invalid username",
+        data: {}
       }
       return
     }
     if(md5Pwd(password) !== user.password) {
       ctx.body = {
         code: 201,
-        message: "密码错误"
+        message: "incorrect password",
+        data: {}
       }
       return
     }
@@ -33,7 +35,7 @@ class AuthController {
     })
     ctx.body = {
       code: 200,
-      message: "登录成功",
+      message: "success",
       data: {
         token
       }
