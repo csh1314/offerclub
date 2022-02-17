@@ -31,8 +31,8 @@ class UserService {
    * @return {object} 
    */
   async put(userInfo) {
-    const { username } = userInfo
-    let user = await userTable.where({username}).findOne()
+    const { _id } = userInfo
+    let user = await userTable.where({_id}).findOne()
     user = Object.assign(user, userInfo)
     return await userTable.save(user)
   }

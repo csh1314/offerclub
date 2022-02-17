@@ -5,7 +5,7 @@ const userService = require('../services/userService')
 const verifyAuth = async (ctx, next) => {
   const authorization = ctx.headers.authorization;
   if (!authorization) {
-    const error = new Error('用户未登录')
+    const error = new Error('no token')
     error.status = 401
     throw error
   }
@@ -19,19 +19,11 @@ const verifyAuth = async (ctx, next) => {
     ctx.userInfo = userInfo;
     ctx.token = authorization;
   } catch (err) {
-    const error = new Error('登录状态过期');
+    const error = new Error('invalid token');
     error.status = 401;
     throw error
   }
-  try {
-    await next();
-  } catch (err) {
-    const error = new Error('客户端错误');
-    error.status = 400;
-    throw error
-  }
-
-
+  await next()
 }
 
 module.exports = {
