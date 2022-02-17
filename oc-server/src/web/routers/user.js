@@ -12,5 +12,7 @@ const checkMiddleware = require('../middleware/checkMiddleware')
 router.patch('/', authMiddleware.verifyAuth, userController.patch)
 // 修改用户信息
 router.put('/', authMiddleware.verifyAuth, checkMiddleware.checkSameUsername, userController.put)
+// 查询用户信息
+router.get('/:id', userController.query)
 
 module.exports = router
