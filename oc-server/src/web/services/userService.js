@@ -26,6 +26,18 @@ class UserService {
   }
 
   /**
+   * @description 修改用户信息
+   * @param {object} userInfo 
+   * @return {object} 
+   */
+  async put(userInfo) {
+    const { username } = userInfo
+    let user = await userTable.where({username}).findOne()
+    user = Object.assign(user, userInfo)
+    return await userTable.save(user)
+  }
+
+  /**
    * @description 通过用户名查询用户
    * @param {string} username 
    * @return {object} 

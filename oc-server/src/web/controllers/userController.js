@@ -48,6 +48,19 @@ class UserController {
       data: {}
     }
   }
+
+  async put(ctx) {
+    const user = Object.assign(ctx.userInfo, ctx.request.body)
+    const userInfo = await userService.put(user)
+    delete userInfo.password
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        userInfo
+      }
+    }
+  }
 }
 
 module.exports = new UserController()
