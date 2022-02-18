@@ -8,6 +8,7 @@
 |-- src
     |-- app    	//导出的app
     |-- utils  	//封装的工具函数
+    |-- cloudFunctions  //云函数
     |-- common 	//公共的一些中间件
         |-- middleware
     |-- web   	//web端的接口
