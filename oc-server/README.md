@@ -62,3 +62,6 @@
 |     /web/user      |    修改用户信息     |      PUT      | username, desc, email, sex, school, ... | userInfo |                需携带authorization                 |
 | /web/uploadAvatar  |      上传头像       |     POST      |                  file                   | avatarUrl |                需携带authorization                 |
 |    /web/upload     |     上传多文件      |     POST      |                  file                   | urlList |                需携带authorization                 |
+| /web/follow | 用户关注 | POST | id | isFollow | 需携带authorization |
+| /web/unfollow | 用户取消关注 | POST | id | isFollow | 需携带authorization |
+|  |  |  |  |  |  |
