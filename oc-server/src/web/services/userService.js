@@ -52,7 +52,15 @@ class UserService {
    * @return {object} 
    */
    async getUserById(id) {
-    return await userTable.where({_id: ObjectId(id)}).findOne()
+    let user = null
+    try {
+      user = await userTable.where({_id: ObjectId(id)}).findOne()
+    } catch (error) {
+      const err = new Error('invalid id')
+      err.status = 400
+      throw err
+    }
+    return user
   }
 
   /**
@@ -73,6 +81,20 @@ class UserService {
    */
   async getUserByPhone(phoneNumber) {
     return await userTable.where({phoneNumber}).findOne()
+  }
+  /**
+   * @description 关注
+   * @param {string} u_id 
+   * @param {string} target_id 
+   * @return
+   */
+  async follow(u_id, target_id) {
+    const user = await userTable.where({_id:ObjectId(u_id)}).findOne()
+    user.followingCount += 1
+    await userTable.save(user)
+    const target = await userTable.where({_id:ObjectId(target_id)}).findOne()
+    target.followerCount += 1
+    await userTable.save(target)
   }
 }
 
