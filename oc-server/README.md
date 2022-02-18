@@ -65,3 +65,7 @@
 | 9 | /web/follow | 用户关注 | POST | id | isFollow | 需携带authorization |
 | 10 | /web/unfollow | 用户取消关注 | POST | id | isFollow | 需携带authorization |
 | 11 | /web/user/:id | 获取用户信息 | GET | - | userInfo | - |
+
+12  	 	/web/followingList        关注的人           GET         - 	followingList             需携带authorization
+
+13 	 	 /web/followerList         关注我的人        GET         - 	followerList               需携带authorization
