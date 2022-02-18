@@ -52,16 +52,16 @@
 
 以下省略BASE_URL
 
-|        接口        |        描述         | 方式（method) |                  参数                   | 返回(data)      |                        标注                        |
-| :----------------: | :-----------------: | :-----------: | :-------------------------------------: | --------------- | :------------------------------------------------: |
-|  /web/commonLogin  |    用户名/手机号密码登录     |     POST      |           username, password            | userInfo, token |                         -                          |
-| /web/authorization |  获取当前用户信息  |      GET      |                    -                    | userInfo        |                需携带authorization                 |
-|  /web/verifyLogin  | 手机验证码登录/注册 |     POST      |            phoneNumber, code            | userInfo, token | 客户端需要设置请求头 x-tt-session-v2: 用户唯一标识 |
-|     /web/send      |     发送验证码      |     POST      |               phoneNumber               |                 | 客户端需要设置请求头 x-tt-session-v2: 用户唯一标识 |
-|     /web/user      |      修改密码       |     PATCH     |               newPassword               |                 |                需携带authorization                 |
-|     /web/user      |    修改用户信息     |      PUT      | username, desc, email, sex, school, ... | userInfo |                需携带authorization                 |
-| /web/uploadAvatar  |      上传头像       |     POST      |                  file                   | avatarUrl |                需携带authorization                 |
-|    /web/upload     |     上传多文件      |     POST      |                  file                   | urlList |                需携带authorization                 |
-| /web/follow | 用户关注 | POST | id | isFollow | 需携带authorization |
-| /web/unfollow | 用户取消关注 | POST | id | isFollow | 需携带authorization |
-| /web/user/:id | 获取用户信息 | GET | - | userInfo | - |
+|        序号        |        接口        |        描述         | 方式（method) |                  参数                   | 返回(data)      |                        标注                        |
+| :----------------: | :-----------------: | :-----------: | :-------------------------------------: | --------------- | :------------------------------------------------: | -------------------------------------------------- |
+|  1  |  /web/commonLogin  |    用户名/手机号密码登录     |     POST      |           username, password            | userInfo, token |                         -                          |
+| 2 | /web/authorization |  获取当前用户信息  |      GET      |                    -                    | userInfo        |                需携带authorization                 |
+|  3  |  /web/verifyLogin  | 手机验证码登录/注册 |     POST      |            phoneNumber, code            | userInfo, token | 客户端需要设置请求头 x-tt-session-v2: 用户唯一标识 |
+|     4     |     /web/send      |     发送验证码      |     POST      |               phoneNumber               |                 | 客户端需要设置请求头 x-tt-session-v2: 用户唯一标识 |
+|     5     |     /web/user      |      修改密码       |     PATCH     |               newPassword               |                 |                需携带authorization                 |
+|     6     |     /web/user      |    修改用户信息     |      PUT      | username, desc, email, sex, school, ... | userInfo |                需携带authorization                 |
+| 7 | /web/uploadAvatar  |      上传头像       |     POST      |                  file                   | avatarUrl |                需携带authorization                 |
+|    8    |    /web/upload     |     上传多文件      |     POST      |                  file                   | urlList |                需携带authorization                 |
+| 9 | /web/follow | 用户关注 | POST | id | isFollow | 需携带authorization |
+| 10 | /web/unfollow | 用户取消关注 | POST | id | isFollow | 需携带authorization |
+| 11 | /web/user/:id | 获取用户信息 | GET | - | userInfo | - |
