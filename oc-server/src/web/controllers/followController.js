@@ -15,6 +15,25 @@ class FollowController {
       }
     }
   }
+
+  async delete(ctx) {
+    const uid = ctx.userInfo._id.toString()
+    const isFollow = await followService.isFollow(uid, ctx.request.body.id)
+    if(!isFollow) {
+      const err = new Error('does not follow')
+      err.status = 400
+      throw err
+    } 
+    await followService.delete(uid, ctx.request.body.id)
+    await userService.unFollow(uid, ctx.request.body.id)
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        isFollow: false
+      }
+    }
+  }
 }
 
 module.exports = new FollowController()

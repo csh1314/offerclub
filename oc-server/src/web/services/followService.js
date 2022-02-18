@@ -19,10 +19,22 @@ class FollowService {
   }
 
   /**
+   * @description 取消关注
+   * @param {string} u_id 
+   * @param {string} target_id 
+   * @return 
+   */
+  async delete(u_id, target_id) {
+    let data = await followTable.where({u_id, target_id, is_deleted: false}).findOne()
+    data.is_deleted = true
+    return await followTable.save(data)
+  }
+
+  /**
    * @description 是否已经关注
-   * @param {*} u_id 
-   * @param {*} target_id 
-   * @returns 
+   * @param {string} u_id 
+   * @param {string} target_id 
+   * @return
    */
   async isFollow(u_id, target_id) {
     return await followTable.where({u_id, target_id, is_deleted: false}).findOne()
