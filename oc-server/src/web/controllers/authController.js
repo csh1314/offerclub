@@ -106,6 +106,7 @@ class AuthController {
       phoneNumber
     )
     ctx.body = {
+      code: 200,
       message:"success",
       data: {}
     }
