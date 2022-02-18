@@ -46,7 +46,7 @@ class FollowService {
    * @return {Array}
    */
   async query(u_id) {
-    return await followTable.where({u_id:ObjectId(u_id), is_deleted: false}).find()
+    return await followTable.where({u_id, is_deleted: false}).find()
   }
 }
 
