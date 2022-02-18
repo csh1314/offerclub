@@ -38,15 +38,6 @@ class UserService {
   }
 
   /**
-   * @description 通过用户名查询用户
-   * @param {string} username 
-   * @return {object} 
-   */
-  async getUserByUsername(username) {
-    return await userTable.where({username}).findOne()
-  }
-
-  /**
    * @description 通过id查询用户
    * @param {string} id 
    * @return {object} 
@@ -63,6 +54,15 @@ class UserService {
     return user
   }
 
+  /**
+   * @description 通过邮箱查询用户
+   * @param {string} email 
+   * @return {object}
+   */
+   async getUserByEmail(email) {
+    return await userTable.where({email}).findOne()
+  }
+  
   /**
    * @description 上传头像
    * @param {object} 

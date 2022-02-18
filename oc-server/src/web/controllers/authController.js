@@ -5,14 +5,14 @@ const md5Pwd = require('../../utils/handlePwd')
 const handleGenerateToken = require('../../utils/handleGenerateToken')
 class AuthController {
   async commonLogin(ctx) {
-    const { username, password } = ctx.request.body
-    let user = await userService.getUserByUsername(username)
+    const { account, password } = ctx.request.body
+    let user = await userService.getUserByEmail(account)
     if(!user){
-      user = await userService.getUserByPhone(username)
+      user = await userService.getUserByPhone(account)
       if(!user) {
         ctx.body = {
           code: 201,
-          message: "invalid username",
+          message: "invalid account",
           data: {}
         }
         return
@@ -27,10 +27,8 @@ class AuthController {
       return
     }
     delete user.password
-    const token = handleGenerateToken({
-      id: user._id.toString(),
-      username
-    })
+    delete user.phoneNumber
+    const token = handleGenerateToken({id: user._id.toString()})
     ctx.body = {
       code: 200,
       message: "success",
