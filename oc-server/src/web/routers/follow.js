@@ -15,5 +15,7 @@ router.post('/follow', authMiddleware.verifyAuth, checkMiddleware.checkFollowVal
 router.post('/unfollow', authMiddleware.verifyAuth, followController.delete)
 // 获取关注的人列表
 router.get('/followingList', authMiddleware.verifyAuth, followController.queryFollowing)
+// 获取关注我的人列表
+router.get('/followerList', authMiddleware.verifyAuth, followController.queryFollower)
 
 module.exports = router

@@ -37,7 +37,7 @@ class FollowController {
 
   async queryFollowing(ctx) {
     const uid = ctx.userInfo._id.toString()
-    const targetIdList = await followService.query(uid)
+    const targetIdList = await followService.queryFollowing(uid)
     const followingList = []
     for(const { target_id } of targetIdList) {
       const user = await userService.getUserById(target_id)
@@ -50,6 +50,25 @@ class FollowController {
       message: "success",
       data: {
         followingList
+      }
+    }
+  }
+  
+  async queryFollower(ctx) {
+    const id = ctx.userInfo._id.toString()
+    const uIdList = await followService.queryFollower(id)
+    const followerList = []
+    for(const { u_id } of uIdList) {
+      const user = await userService.getUserById(u_id)
+      delete user.password
+      delete user.phoneNumber
+      followerList.push(user)
+    }
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        followerList
       }
     }
   }

@@ -45,8 +45,17 @@ class FollowService {
    * @param {string} u_id 
    * @return {Array}
    */
-  async query(u_id) {
+  async queryFollowing(u_id) {
     return await followTable.where({u_id, is_deleted: false}).find()
+  }
+
+  /**
+   * @description 查询关注我的人
+   * @param {string} target_id 
+   * @return {Array}
+   */
+   async queryFollower(target_id) {
+    return await followTable.where({target_id, is_deleted: false}).find()
   }
 }
 
