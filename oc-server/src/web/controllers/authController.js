@@ -9,14 +9,14 @@ class AuthController {
     let user = await userService.getUserByEmail(account)
     if(!user){
       user = await userService.getUserByPhone(account)
-      if(!user) {
-        ctx.body = {
-          code: 201,
-          message: "invalid account",
-          data: {}
-        }
-        return
+    }
+    if(!account || !user) {
+      ctx.body = {
+        code: 201,
+        message: "invalid account",
+        data: {}
       }
+      return
     }
     if(md5Pwd(password) !== user.password) {
       ctx.body = {
