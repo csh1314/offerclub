@@ -1,6 +1,6 @@
 
 const disscussService = require('../services/disscussService')
-
+const userService = require('../services/userService')
 class DisscussController {
   async create(ctx) {
     const u_id = ctx.userInfo._id.toString()
@@ -27,7 +27,6 @@ class DisscussController {
     const u_id = ctx.userInfo._id.toString()
     const { id } = ctx.params
     const disscuss = await disscussService.query(id)
-    console.log(disscuss)
     if(!disscuss || u_id !== disscuss.u_id) {
       const err = new Error('no disscuss or no auth')
       err.status = 400
@@ -39,6 +38,26 @@ class DisscussController {
       mesage: "success",
       data: {
         isDeleted: true
+      }
+    }
+  }
+
+  async query(ctx) {
+    const { id } = ctx.params
+    const disscuss = await disscussService.query(id)
+    if(!disscuss) {
+      const err = new Error('no disscuss')
+      err.status = 400
+      throw err 
+    }
+    const { u_id } = disscuss
+    const author = await userService.getUserById(u_id)
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        author,
+        disscuss
       }
     }
   }
