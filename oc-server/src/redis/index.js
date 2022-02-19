@@ -1,6 +1,10 @@
 const inspirecloud = require('@byteinspire/inspirecloud-api')
 
-const setRedis = async (key, value, expireIn = 60 * 60 * 24 * 7 ) => {
+const setRedis = async (key, value) => {
+  await inspirecloud.redis.set(key, value)
+}
+
+const setExpireInRedis = async (key, value, expireIn = 60 * 60 * 24 * 7 ) => {
   await inspirecloud.redis.set(key, value, 'EX', expireIn)
 }
 
@@ -14,6 +18,7 @@ const mergeGetRedis = async (...keys) => await inspirecloud.redis.mget(...keys)
 
 module.exports = {
   setRedis,
+  setExpireInRedis,
   getRedis,
   delRedis,
   mergeGetRedis
