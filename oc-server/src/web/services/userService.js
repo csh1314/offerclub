@@ -85,12 +85,12 @@ class UserService {
   }
   /**
    * @description 关注
-   * @param {string} u_id 
+   * @param {object} u_id 
    * @param {string} target_id 
    * @return
    */
   async follow(u_id, target_id) {
-    const user = await userTable.where({_id:ObjectId(u_id)}).findOne()
+    const user = await userTable.where({_id:u_id}).findOne()
     user.followingCount += 1
     await userTable.save(user)
     const target = await userTable.where({_id:ObjectId(target_id)}).findOne()
@@ -100,12 +100,12 @@ class UserService {
 
   /**
    * @description 取消关注
-   * @param {string} u_id 
+   * @param {object} u_id 
    * @param {string} target_id 
    * @return
    */
   async unFollow(u_id, target_id) {
-    const user = await userTable.where({_id:ObjectId(u_id)}).findOne()
+    const user = await userTable.where({_id:u_id}).findOne()
     user.followingCount = Math.max(0, user.followingCount-1)
     await userTable.save(user)
     const target = await userTable.where({_id:ObjectId(target_id)}).findOne()
