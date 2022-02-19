@@ -1,11 +1,11 @@
 
 const disscussService = require('../services/disscussService')
-const userService = require('../services/userService')
+
 class DisscussController {
   async create(ctx) {
-    const u_id = ctx.userInfo._id.toString()
+    const u_id = ctx.userInfo._id
     const disscuss = Object.assign({ 
-      u_id,
+      author: u_id,
       subjects: [],
       viewCount: 0,
       likeCount: 0,
@@ -27,7 +27,7 @@ class DisscussController {
     const u_id = ctx.userInfo._id.toString()
     const { id } = ctx.params
     const disscuss = await disscussService.query(id)
-    if(!disscuss || u_id !== disscuss.u_id) {
+    if(!disscuss || u_id !== disscuss.author._id.toString()) {
       const err = new Error('no disscuss or no auth')
       err.status = 400
       throw err
@@ -50,15 +50,10 @@ class DisscussController {
       err.status = 400
       throw err 
     }
-    const { u_id } = disscuss
-    const author = await userService.getUserById(u_id)
-    delete author.phoneNumber
-    delete author.email
     ctx.body = {
       code: 200,
       message: "success",
       data: {
-        author,
         disscuss
       }
     }
@@ -67,18 +62,19 @@ class DisscussController {
   async update(ctx) {
     const u_id = ctx.userInfo._id.toString()
     const { id } = ctx.request.body
-    const disscuss = await disscussService.query(id)
-    if(!disscuss || u_id !== disscuss.u_id) {
+    let disscuss = await disscussService.query(id)
+    if(!disscuss || u_id !== disscuss.author._id.toString()) {
       const err = new Error('no disscuss or no auth')
       err.status = 400
       throw err
     }
-    const data = await disscussService.update(ctx.request.body)
+    await disscussService.update(ctx.request.body)
+    disscuss = await disscussService.query(id)
     ctx.body = {
       code: 200,
       message: "success",
       data: {
-        disscuss: data
+        disscuss
       }
     }
   }

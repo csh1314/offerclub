@@ -18,7 +18,17 @@ class DisscussService {
    * @param {string} id 
    */
   async query(id) {
-    return await disscussTable.where({_id: ObjectId(id), is_deleted:false}).findOne()
+    return await disscussTable.where({_id: ObjectId(id), is_deleted:false})
+         .populate({
+           ref: "author",
+           table: "user",
+           projection: {
+            password: 0,
+            phoneNumber: 0,
+            email: 0
+          }
+         })
+         .findOne()
   }
 
   /**
