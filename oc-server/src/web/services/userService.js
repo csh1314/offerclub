@@ -51,6 +51,7 @@ class UserService {
       err.status = 400
       throw err
     }
+    delete user.password
     return user
   }
 

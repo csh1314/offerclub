@@ -67,8 +67,7 @@ class AuthController {
       }
       delete userInfo.password
       const token = handleGenerateToken({
-        id: userInfo._id.toString(),
-        username: userInfo.username
+        id: userInfo._id.toString()
       })
       ctx.body = {
         code: 200,

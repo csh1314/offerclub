@@ -6,8 +6,6 @@ class UserController {
   async query(ctx) {
     const { id } = ctx.params
     const userInfo = await userService.getUserById(id)
-    delete userInfo.password
-    delete userInfo.phoneNumber
     ctx.body = {
       code: 200,
       message: "success",
@@ -23,7 +21,6 @@ class UserController {
       ...ctx.userInfo,
       newPassword: md5Pwd(newPassword)
     })
-    delete userInfo.password
     ctx.body = {
       code: 200,
       message: "success",
@@ -36,7 +33,6 @@ class UserController {
   async put(ctx) {
     const user = Object.assign(ctx.userInfo, ctx.request.body)
     const userInfo = await userService.put(user)
-    delete userInfo.password
     ctx.body = {
       code: 200,
       message: "success",
