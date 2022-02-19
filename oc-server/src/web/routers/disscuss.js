@@ -13,5 +13,7 @@ router.post('/', authMiddleware.verifyAuth, disscussController.create)
 router.delete('/:id', authMiddleware.verifyAuth, disscussController.delete)
 // 查看帖子
 router.get('/:id', disscussController.query)
+// 编辑/更新帖子
+router.put('/', authMiddleware.verifyAuth, disscussController.update)
 
 module.exports = router

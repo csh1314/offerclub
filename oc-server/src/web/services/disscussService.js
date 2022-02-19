@@ -30,6 +30,19 @@ class DisscussService {
     disscuss.is_deleted = true
     return await disscussTable.save(disscuss)
   }
+
+  /**
+   * @description 更新帖子
+   * @param {object} disscuss
+   * @return {object} 
+   */
+  async update(disscuss) {
+    const { id } = disscuss
+    let data = await disscussTable.where({_id: ObjectId(id)}).findOne()
+    delete disscuss.id
+    data = Object.assign(data, disscuss)
+    return await disscussTable.save(data)
+  }
 }
 
 module.exports = new DisscussService()

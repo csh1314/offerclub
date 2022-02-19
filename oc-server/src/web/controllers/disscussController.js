@@ -63,6 +63,25 @@ class DisscussController {
       }
     }
   }
+
+  async update(ctx) {
+    const u_id = ctx.userInfo._id.toString()
+    const { id } = ctx.request.body
+    const disscuss = await disscussService.query(id)
+    if(!disscuss || u_id !== disscuss.u_id) {
+      const err = new Error('no disscuss or no auth')
+      err.status = 400
+      throw err
+    }
+    const data = await disscussService.update(ctx.request.body)
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        disscuss: data
+      }
+    }
+  }
 }
 
 module.exports = new DisscussController()
