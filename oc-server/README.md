@@ -70,3 +70,7 @@
 12  	 	/web/followingList        关注的人           GET         - 	followingList             需携带authorization
 
 13 	 	 /web/followerList         关注我的人        GET         - 	followerList               需携带authorization
+
+### 使用Redis
+
+使用redis来进行编辑帖子的缓存功能
