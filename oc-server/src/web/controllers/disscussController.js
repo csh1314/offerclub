@@ -52,6 +52,8 @@ class DisscussController {
     }
     const { u_id } = disscuss
     const author = await userService.getUserById(u_id)
+    delete author.phoneNumber
+    delete author.email
     ctx.body = {
       code: 200,
       message: "success",
