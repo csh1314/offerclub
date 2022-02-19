@@ -9,5 +9,7 @@ const disscussController = require('../controllers/disscussController')
 
 // 发布帖子
 router.post('/', authMiddleware.verifyAuth, disscussController.create)
+// 删除帖子
+router.delete('/:id', authMiddleware.verifyAuth, disscussController.delete)
 
 module.exports = router

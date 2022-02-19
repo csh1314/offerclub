@@ -22,6 +22,26 @@ class DisscussController {
       }
     }
   }
+
+  async delete(ctx) {
+    const u_id = ctx.userInfo._id.toString()
+    const { id } = ctx.params
+    const disscuss = await disscussService.query(id)
+    console.log(disscuss)
+    if(!disscuss || u_id !== disscuss.u_id) {
+      const err = new Error('no disscuss or no auth')
+      err.status = 400
+      throw err
+    }
+    await disscussService.delete(id)
+    ctx.body = {
+      code: 200,
+      mesage: "success",
+      data: {
+        isDeleted: true
+      }
+    }
+  }
 }
 
 module.exports = new DisscussController()
