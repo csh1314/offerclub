@@ -1,5 +1,6 @@
 const userService = require('../services/userService')
 const followService = require('../services/followService')
+const subjectService = require('../services/subjectService')
 
 const checkUserPutValid = async (ctx, next) => {
   const { email } = ctx.request.body
@@ -38,7 +39,20 @@ const checkFollowValid = async (ctx, next) => {
   await next()
 }
 
+
+const checkSameSubject = async (ctx, next) => {
+  const { content } = ctx.request.body
+  const isSameSubject = await subjectService.queryContent(content)
+  if(isSameSubject) {
+    const error = new Error('already has same subject')
+    error.status = 400
+    throw error
+  }
+  await next()
+}
+
 module.exports = {
   checkUserPutValid,
-  checkFollowValid
+  checkFollowValid,
+  checkSameSubject
 }

@@ -1,6 +1,8 @@
+const inspirecloud = require('@byteinspire/inspirecloud-api')
+const ObjectId = inspirecloud.db.ObjectId
 
 const momentService = require('../services/momentService')
-
+const subjectService = require('../services/subjectService')
 
 class MomentController {
   async create(ctx) {
@@ -14,6 +16,13 @@ class MomentController {
       commentCount: 0,
       is_deleted: false
     }, ctx.request.body)
+    const subjects = []
+    for(const subject of ctx.request.body.subjects) {
+      const subjectObj = ObjectId(subject)
+      await subjectService.addUsedCount(subjectObj, 'moment')
+      subjects.push(subjectObj)
+    }
+    moment.subjects = subjects
     const data = await momentService.create(moment)
     ctx.body = {
       code: 200,

@@ -1,5 +1,8 @@
+const inspirecloud = require('@byteinspire/inspirecloud-api')
+const ObjectId = inspirecloud.db.ObjectId
 
 const disscussService = require('../services/disscussService')
+const subjectService = require('../services/subjectService')
 
 class DisscussController {
   async create(ctx) {
@@ -13,6 +16,13 @@ class DisscussController {
       commentCount: 0,
       is_deleted: false
      }, ctx.request.body)
+    const subjects = []
+    for(const subject of ctx.request.body.subjects) {
+      const subjectObj = ObjectId(subject)
+      await subjectService.addUsedCount(subjectObj, 'disscuss')
+      subjects.push(subjectObj)
+    }
+    disscuss.subjects = subjects
     const data = await disscussService.create(disscuss)
     ctx.body = {
       code: 200,
