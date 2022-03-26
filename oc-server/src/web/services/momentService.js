@@ -40,6 +40,37 @@ class DisscussService {
     moment.is_deleted = true
     return await momentTable.save(moment)
   }
+
+  /**
+   * @description 点赞数/评论数
+   * @param {string} id 
+   * @param {string} type 
+   * @returns 
+   */
+   async addCount(id, type) {
+    const moment = await momentTable.where({_id: ObjectId(id)}).findOne()
+    switch(type) {
+      case 'like':
+        moment.likeCount++
+        break
+      case 'comment':
+        moment.commentCount++
+        break
+      default:
+        throw new Error('wrong type')
+    }
+    return await momentTable.save(moment)
+  }
+
+  /**
+   * @description 评论数-1
+   * @param {object} _id 
+   */
+   async subCommentCount(_id) {
+    const moment = await momentTable.where({_id}).findOne()
+    moment.commentCount = Math.max(0, moment.commentCount-1)
+    return await momentTable.save(moment)
+  }
 }
 
 module.exports = new DisscussService()

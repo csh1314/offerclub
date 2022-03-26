@@ -2,6 +2,8 @@ const inspirecloud = require('@byteinspire/inspirecloud-api')
 const ObjectId = inspirecloud.db.ObjectId
 
 const commentService = require('../services/commentService')
+const disscussService = require('../services/disscussService')
+const momentService = require('../services/momentService')
 
 class CommentController {
   async create(ctx) {
@@ -30,6 +32,12 @@ class CommentController {
     }
     comment.target = ObjectId(comment.target)
     const data = await commentService.create(comment)
+    if (comment.type === 'disscuss') {
+      await disscussService.addCount(comment.target.toString(), 'comment')
+    } 
+    else if (comment.type === 'moment') {
+      await momentService.addCount(comment.target.toString(), 'comment')
+    }
     ctx.body = {
       code: 200,
       message: "success",
@@ -49,6 +57,12 @@ class CommentController {
       throw err
     }
     await commentService.delete(id)
+    if (comment.type === 'disscuss') {
+      await disscussService.subCommentCount(comment.target)
+    } 
+    else if (comment.type === 'moment') {
+      await momentService.subCommentCount(comment.target)
+    }
     ctx.body = {
       code: 200,
       mesage: "success",

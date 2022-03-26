@@ -53,6 +53,43 @@ class DisscussService {
     data = Object.assign(data, disscuss)
     return await disscussTable.save(data)
   }
+
+  /**
+   * @description 添加浏览量/点赞数/评论数/收藏数
+   * @param {string} id 
+   * @param {string} type 
+   * @returns 
+   */
+  async addCount(id, type) {
+    const disscuss = await disscussTable.where({_id: ObjectId(id)}).findOne()
+    switch(type) {
+      case 'view': 
+        disscuss.viewCount++
+        break
+      case 'like':
+        disscuss.likeCount++
+        break
+      case 'comment':
+        disscuss.commentCount++
+        break
+      case 'star':
+        disscuss.starCount++
+        break
+      default:
+        throw new Error('wrong type')
+    }
+    return await disscussTable.save(disscuss)
+  }
+
+  /**
+   * @description 评论数-1
+   * @param {object} _id 
+   */
+  async subCommentCount(_id) {
+    const disscuss = await disscussTable.where({_id}).findOne()
+    disscuss.commentCount = Math.max(0, disscuss.commentCount-1)
+    return await disscussTable.save(disscuss)
+  }
 }
 
 module.exports = new DisscussService()
