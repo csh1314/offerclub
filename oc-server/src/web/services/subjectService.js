@@ -65,7 +65,7 @@ class SubjectService {
     err.status = 400
     throw err
   }
-  subject[type]++
+  subject[type + 'Count']++
   return await subjectTable.save(subject)
  }
 }
