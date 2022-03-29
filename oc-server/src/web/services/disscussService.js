@@ -36,7 +36,7 @@ class DisscussService {
    * @param {string} id 
    */
   async delete(id) {
-    let disscuss = await disscussTable.where({_id: ObjectId(id)}).findOne()
+    let disscuss = await disscussTable.where({_id: ObjectId(id), is_deleted: false}).findOne()
     disscuss.is_deleted = true
     return await disscussTable.save(disscuss)
   }
@@ -48,7 +48,7 @@ class DisscussService {
    */
   async update(disscuss) {
     const { id } = disscuss
-    let data = await disscussTable.where({_id: ObjectId(id)}).findOne()
+    let data = await disscussTable.where({_id: ObjectId(id), is_deleted:false}).findOne()
     delete disscuss.id
     data = Object.assign(data, disscuss)
     return await disscussTable.save(data)
@@ -61,7 +61,12 @@ class DisscussService {
    * @returns 
    */
   async addCount(id, type) {
-    const disscuss = await disscussTable.where({_id: ObjectId(id)}).findOne()
+    const disscuss = await disscussTable.where({_id: ObjectId(id), is_deleted: false}).findOne()
+    if(!disscuss) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
     switch(type) {
       case 'view': 
         disscuss.viewCount++
@@ -76,7 +81,9 @@ class DisscussService {
         disscuss.starCount++
         break
       default:
-        throw new Error('wrong type')
+        const err = new Error('wrong type')
+        err.status = 400
+        throw err
     }
     return await disscussTable.save(disscuss)
   }
@@ -86,8 +93,28 @@ class DisscussService {
    * @param {object} _id 
    */
   async subCommentCount(_id) {
-    const disscuss = await disscussTable.where({_id}).findOne()
+    const disscuss = await disscussTable.where({_id, is_deleted:false}).findOne()
+    if(!disscuss) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
     disscuss.commentCount = Math.max(0, disscuss.commentCount-1)
+    return await disscussTable.save(disscuss)
+  }
+
+  /**
+   * @description 点赞数-1
+   * @param {object} _id 
+   */
+   async subLikeCount(_id) {
+    const disscuss = await disscussTable.where({_id, is_deleted:false}).findOne()
+    if(!disscuss) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
+    disscuss.likeCount = Math.max(0, disscuss.likeCount-1)
     return await disscussTable.save(disscuss)
   }
 }

@@ -36,7 +36,7 @@ class CommentService {
    * @param {string} id 
    */
    async delete(id) {
-    let comment = await commentTable.where({_id: ObjectId(id)}).findOne()
+    let comment = await commentTable.where({_id: ObjectId(id), is_deleted: false}).findOne()
     comment.is_deleted = true
     return await commentTable.save(comment)
   }
@@ -58,6 +58,37 @@ class CommentService {
           }
           })   
           .find()
+  }
+
+  /**
+   * @description 添加点赞数
+   * @param {string} id 
+   * @returns 
+   */
+   async addLikeCount(id) {
+    const comment = await commentTable.where({_id: ObjectId(id), is_deleted: false}).findOne()
+    if(!comment) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
+    comment.likeCount++
+    return await commentTable.save(comment)
+  }
+
+  /**
+   * @description 点赞数-1
+   * @param {object} _id 
+   */
+   async subLikeCount(_id) {
+    const comment = await commentTable.where({_id, is_deleted: false}).findOne()
+    if(!comment) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
+    comment.likeCount = Math.max(0, comment.likeCount-1)
+    return await commentTable.save(comment)
   }
 }
 

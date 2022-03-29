@@ -36,7 +36,7 @@ class DisscussService {
    * @param {string} id 
    */
    async delete(id) {
-    let moment = await momentTable.where({_id: ObjectId(id)}).findOne()
+    let moment = await momentTable.where({_id: ObjectId(id), is_deleted:false}).findOne()
     moment.is_deleted = true
     return await momentTable.save(moment)
   }
@@ -48,7 +48,12 @@ class DisscussService {
    * @returns 
    */
    async addCount(id, type) {
-    const moment = await momentTable.where({_id: ObjectId(id)}).findOne()
+    const moment = await momentTable.where({_id: ObjectId(id), is_deleted:false}).findOne()
+    if(!moment) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
     switch(type) {
       case 'like':
         moment.likeCount++
@@ -67,8 +72,28 @@ class DisscussService {
    * @param {object} _id 
    */
    async subCommentCount(_id) {
-    const moment = await momentTable.where({_id}).findOne()
+    const moment = await momentTable.where({_id, is_deleted:false}).findOne()
+    if(!moment) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
     moment.commentCount = Math.max(0, moment.commentCount-1)
+    return await momentTable.save(moment)
+  }
+
+  /**
+   * @description 点赞数-1
+   * @param {object} _id 
+   */
+   async subLikeCount(_id) {
+    const moment = await momentTable.where({_id, is_deleted:false}).findOne()
+    if(!moment) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
+    moment.likeCount = Math.max(0, moment.likeCount-1)
     return await momentTable.save(moment)
   }
 }
