@@ -9,8 +9,8 @@ class LikeService {
    * @param {object} like 
    * @return 
    */
-  async create(comment) {
-    return await likeTable.save(comment)
+  async create(like) {
+    return await likeTable.save(like)
   }
 
   /**

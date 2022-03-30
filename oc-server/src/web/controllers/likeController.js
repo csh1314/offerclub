@@ -61,7 +61,7 @@ class LikeController {
     const target = ObjectId(req.target)
     const isLike = await likeService.query(user, target)
     if(!isLike) {
-      const err = new Error('no like record')
+      const err = new Error('is not liked')
       err.status = 400
       throw err
     }

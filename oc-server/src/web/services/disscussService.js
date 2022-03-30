@@ -117,6 +117,21 @@ class DisscussService {
     disscuss.likeCount = Math.max(0, disscuss.likeCount-1)
     return await disscussTable.save(disscuss)
   }
+
+  /**
+   * @description 收藏数-1
+   * @param {object} _id 
+   */
+   async subStarCount(_id) {
+    const disscuss = await disscussTable.where({_id, is_deleted:false}).findOne()
+    if(!disscuss) {
+      const err = new Error('wrong target')
+      err.status = 400
+      throw err
+    }
+    disscuss.starCount = Math.max(0, disscuss.starCount-1)
+    return await disscussTable.save(disscuss)
+  }
 }
 
 module.exports = new DisscussService()
