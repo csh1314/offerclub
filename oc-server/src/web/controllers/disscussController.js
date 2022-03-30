@@ -4,6 +4,12 @@ const ObjectId = inspirecloud.db.ObjectId
 const disscussService = require('../services/disscussService')
 const subjectService = require('../services/subjectService')
 
+const {
+  setRedis,
+  getRedis,
+  delRedis
+} = require('../../redis')
+
 class DisscussController {
   async create(ctx) {
     const u_id = ctx.userInfo._id
@@ -86,6 +92,52 @@ class DisscussController {
       data: {
         disscuss
       }
+    }
+  }
+
+  async editCache(ctx) {
+    const uid = ctx.userInfo._id.toString()
+    const REDIS_KEY = `EDIT_CACHE_${uid}`
+    const req = ctx.request.body
+    const cache = {
+      title: req.title,
+      content: req.content,
+      subjects: req?.subjects ?? []
+    }
+    await setRedis(REDIS_KEY, JSON.stringify(cache))
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        cache
+      }
+    }
+  }
+
+  async getCache(ctx) {
+    const uid = ctx.userInfo._id.toString()
+    const REDIS_KEY = `EDIT_CACHE_${uid}`
+    let data = await getRedis(REDIS_KEY)
+    if (data && data.length) {
+      data = JSON.parse(data)
+    }
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {
+        cache: data ?? {}
+      }
+    }
+  }
+
+  async clearCache(ctx) {
+    const uid = ctx.userInfo._id.toString()
+    const REDIS_KEY = `EDIT_CACHE_${uid}`
+    await delRedis(REDIS_KEY)
+    ctx.body = {
+      code: 200,
+      message: "success",
+      data: {}
     }
   }
 }
